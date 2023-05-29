@@ -1,5 +1,98 @@
+import { useLocation, useNavigate, useSearchParams } from "@solidjs/router";
+import Question from "../../components/Quesiton";
+import quizzesData from "../../data/quizzes";
+import TopProgressBar from "../../components/TopProgressBar";
+import BaseTemplate from "../../components/templates/BaseTemplate";
+import { Show, createMemo, createSignal, onMount } from "solid-js";
+import { shuffleArray } from "../../lib/utils";
+
 const Quiz = () => {
-  return <div>Quiz</div>;
+  const navigate = useNavigate();
+  const location = useLocation<{
+    quizName?: string;
+  }>();
+  const [quiz, setQuiz] = createSignal<(typeof quizzesData)[0] | undefined>();
+  const [quizListIdx, setQuizListIdx] = createSignal(0);
+  const [correctQuestions, setCorrectQuestions] = createSignal<
+    (typeof quizzesData)[0]["quizList"]
+  >([]);
+  const round = () => quizListIdx() + 1;
+  const currentQuestion = createMemo(() => quiz()?.quizList[quizListIdx()]);
+  const choices = () => {
+    const CHOICE_CNT = 4;
+    const q = quiz();
+    const currentQuizListIdx = quizListIdx();
+
+    if (!q || q.quizList.length < CHOICE_CNT) return [];
+
+    const choices: string[] = [q.quizList[currentQuizListIdx].answer];
+
+    while (choices.length < CHOICE_CNT) {
+      const randIdx = Math.floor(Math.random() * q.quizList.length);
+
+      const alreadyExistInArray = choices.find(
+        (c) => c === q.quizList[randIdx].answer
+      );
+      if (alreadyExistInArray) continue;
+
+      choices.push(q.quizList[randIdx].answer);
+    }
+
+    return choices;
+  };
+
+  const handleAnswer = (index: number) => {
+    const q = quiz();
+    if (!q) {
+      alert("Something went wrong. Please, refresh the website.");
+      return;
+    }
+
+    const userAnswer = choices()[index];
+    const listIdx = quizListIdx();
+    const currentQuestion = q.quizList[listIdx];
+
+    if (currentQuestion.answer === userAnswer) {
+      setCorrectQuestions((prevCorrectQuestions) =>
+        prevCorrectQuestions.concat(currentQuestion)
+      );
+    }
+
+    if (listIdx === q.quizList.length - 1) {
+      console.log(correctQuestions());
+      navigate("/result", {});
+      return;
+    }
+
+    setQuizListIdx((prevIdx) => prevIdx + 1);
+  };
+
+  onMount(() => {
+    const quiz = quizzesData.find(
+      (q) => q.quizName === location.state?.quizName
+    );
+
+    if (!quiz) {
+      navigate("/");
+      return;
+    }
+
+    quiz.quizList = shuffleArray(quiz.quizList);
+    setQuiz(quiz);
+  });
+
+  return (
+    <BaseTemplate>
+      <Show when={quiz() !== undefined} fallback={<div>Loading...</div>}>
+        <TopProgressBar value={round()} max={quiz()?.quizList.length || 0} />
+        <Question
+          question={currentQuestion()?.question || ""}
+          choices={choices()}
+          onAnswer={handleAnswer}
+        />
+      </Show>
+    </BaseTemplate>
+  );
 };
 
 export default Quiz;

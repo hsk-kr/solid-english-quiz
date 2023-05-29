@@ -1,4 +1,4 @@
-import { For, createEffect, createSignal } from "solid-js";
+import { For, createSignal } from "solid-js";
 import BaseTemplate from "../../components/templates/BaseTemplate";
 import quizzesData from "../../data/quizzes";
 import ArrowKeys from "../../components/functions/ArrowKeys";
@@ -37,12 +37,20 @@ const Intro = () => {
     );
   };
 
-  const navigateToQuiz = () => {
-    navigate("/quiz");
+  const navigateToQuiz = (quizName: string) => {
+    navigate("/quiz", {
+      state: {
+        quizName,
+      },
+    });
   };
 
   const handleEnter = () => {
-    navigateToQuiz();
+    const selectedQuiz = quizzes()[selectedQuizIdx()];
+
+    if (!selectedQuiz) return;
+
+    navigateToQuiz(selectedQuiz.quizName);
   };
 
   return (
@@ -56,7 +64,7 @@ const Intro = () => {
             {(quiz, quizIdx) => {
               const handleQuizClick = () => {
                 if (quizIdx() === 1) {
-                  navigateToQuiz();
+                  navigateToQuiz(quiz?.quizName || "");
                 } else {
                   setSelectedQuizIdx((prevIdx) => prevIdx + quizIdx() - 1);
                 }
