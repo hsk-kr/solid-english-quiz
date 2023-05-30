@@ -1,5 +1,11 @@
+import BaseTemplate from "../../components/templates/BaseTemplate";
+
 const Result = () => {
-  return <div>Result</div>;
+  return (
+    <BaseTemplate>
+      <h1></h1>
+    </BaseTemplate>
+  );
 };
 
 export default Result;

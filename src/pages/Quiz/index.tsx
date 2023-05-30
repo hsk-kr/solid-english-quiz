@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useSearchParams } from "@solidjs/router";
-import Question from "../../components/Quesiton";
+import Question from "../../components/Question";
 import quizzesData from "../../data/quizzes";
 import TopProgressBar from "../../components/TopProgressBar";
 import BaseTemplate from "../../components/templates/BaseTemplate";
@@ -38,7 +38,7 @@ const Quiz = () => {
       choices.push(q.quizList[randIdx].answer);
     }
 
-    return choices;
+    return shuffleArray(choices);
   };
 
   const handleAnswer = (index: number) => {

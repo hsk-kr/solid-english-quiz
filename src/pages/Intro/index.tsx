@@ -1,9 +1,8 @@
 import { For, createSignal } from "solid-js";
 import BaseTemplate from "../../components/templates/BaseTemplate";
 import quizzesData from "../../data/quizzes";
-import ArrowKeys from "../../components/functions/ArrowKeys";
 import { useNavigate } from "@solidjs/router";
-import Enter from "../../components/functions/Enter";
+import KeyEvent, { Key } from "../../components/functions/KeyEvent";
 
 const Intro = () => {
   const [selectedQuizIdx, setSelectedQuizIdx] = createSignal(0);
@@ -23,18 +22,26 @@ const Intro = () => {
     return quizzesListToShow;
   };
 
-  const handleKeyUp = () => {
-    setSelectedQuizIdx((prevSelctedQuizIdx) =>
-      prevSelctedQuizIdx > 0 ? prevSelctedQuizIdx - 1 : prevSelctedQuizIdx
-    );
-  };
-
-  const handleKeyDown = () => {
-    setSelectedQuizIdx((prevSelctedQuizIdx) =>
-      prevSelctedQuizIdx < quizzesData.length - 1
-        ? prevSelctedQuizIdx + 1
-        : prevSelctedQuizIdx
-    );
+  const handleKeyEvent = (key: Key) => {
+    switch (key) {
+      case "Enter":
+        const selectedQuiz = quizzes()[selectedQuizIdx()];
+        if (!selectedQuiz) break;
+        navigateToQuiz(selectedQuiz.quizName);
+        break;
+      case "ArrowUp":
+        setSelectedQuizIdx((prevSelctedQuizIdx) =>
+          prevSelctedQuizIdx > 0 ? prevSelctedQuizIdx - 1 : prevSelctedQuizIdx
+        );
+        break;
+      case "ArrowDown":
+        setSelectedQuizIdx((prevSelctedQuizIdx) =>
+          prevSelctedQuizIdx < quizzesData.length - 1
+            ? prevSelctedQuizIdx + 1
+            : prevSelctedQuizIdx
+        );
+        break;
+    }
   };
 
   const navigateToQuiz = (quizName: string) => {
@@ -45,18 +52,12 @@ const Intro = () => {
     });
   };
 
-  const handleEnter = () => {
-    const selectedQuiz = quizzes()[selectedQuizIdx()];
-
-    if (!selectedQuiz) return;
-
-    navigateToQuiz(selectedQuiz.quizName);
-  };
-
   return (
     <BaseTemplate>
-      <Enter onEnter={handleEnter} />
-      <ArrowKeys onUp={handleKeyUp} onDown={handleKeyDown} />
+      <KeyEvent
+        onKeyUp={handleKeyEvent}
+        keys={["Enter", "ArrowUp", "ArrowDown"]}
+      />
       <div class="pt-40 text-center">
         <h1 class="text-7xl">English Quiz</h1>
         <div class="mt-28 text-4xl flex flex-col gap-y-6">

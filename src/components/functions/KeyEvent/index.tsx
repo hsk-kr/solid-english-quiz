@@ -1,14 +1,16 @@
 import { onCleanup, Component, createEffect } from "solid-js";
 
-const ArrowKeys: Component<{
-  onUp?: VoidFunction;
-  onDown?: VoidFunction;
+export type Key = "Enter" | "ArrowUp" | "ArrowDown" | "1" | "2" | "3" | "4";
+
+const KeyEvent: Component<{
+  keys: Key | Key[];
+  onKeyUp?: (key: Key) => void;
 }> = (props) => {
   const handleWindowKeyEvent = (e: KeyboardEvent) => {
-    if (e.key === "ArrowUp" && props.onUp) {
-      props.onUp();
-    } else if (e.key === "ArrowDown" && props.onDown) {
-      props.onDown();
+    const k = e.key as Key;
+
+    if (props.keys.includes(k)) {
+      props.onKeyUp?.(k);
     }
   };
 
@@ -21,4 +23,4 @@ const ArrowKeys: Component<{
   return null;
 };
 
-export default ArrowKeys;
+export default KeyEvent;
