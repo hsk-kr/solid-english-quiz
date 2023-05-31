@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useSearchParams } from "@solidjs/router";
+import { useLocation, useNavigate } from "@solidjs/router";
 import Question from "../../components/Question";
 import quizzesData from "../../data/quizzes";
 import TopProgressBar from "../../components/TopProgressBar";
@@ -11,10 +11,10 @@ const Quiz = () => {
   const location = useLocation<{
     quizName?: string;
   }>();
-  const [quiz, setQuiz] = createSignal<(typeof quizzesData)[0] | undefined>();
+  const [quiz, setQuiz] = createSignal<Quiz | undefined>();
   const [quizListIdx, setQuizListIdx] = createSignal(0);
   const [correctQuestions, setCorrectQuestions] = createSignal<
-    (typeof quizzesData)[0]["quizList"]
+    Quiz["quizList"]
   >([]);
   const round = () => quizListIdx() + 1;
   const currentQuestion = createMemo(() => quiz()?.quizList[quizListIdx()]);
@@ -59,8 +59,12 @@ const Quiz = () => {
     }
 
     if (listIdx === q.quizList.length - 1) {
-      console.log(correctQuestions());
-      navigate("/result", {});
+      navigate("/result", {
+        state: {
+          quiz: q,
+          correctQuestions: correctQuestions(),
+        },
+      });
       return;
     }
 

@@ -1,4 +1,4 @@
-const quizzes = [
+const quizzes: Quiz[] = [
   {
     quizName: "Basic 10 words",
     quizList: [
