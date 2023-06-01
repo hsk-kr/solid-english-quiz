@@ -2,6 +2,7 @@ import { A, useLocation, useNavigate } from "@solidjs/router";
 import BaseTemplate from "../../components/templates/BaseTemplate";
 import quizzesData from "../../data/quizzes";
 import { Show, createSignal, onMount } from "solid-js";
+import Badge from "../../components/Badge";
 
 const Result = () => {
   type LocationState = {
@@ -11,6 +12,21 @@ const Result = () => {
   const navigate = useNavigate();
   const [locationData, setLocationData] = createSignal<LocationState>();
   const location = useLocation<LocationState>();
+  const badgeComp = () => {
+    const { quiz, correctQuestions } = location.state || {};
+    if (!quiz || !correctQuestions) {
+      return null;
+    }
+
+    const w = correctQuestions.length / quiz.quizList.length;
+    if (w === 1) {
+      return <Badge color="blue">PERFECT!</Badge>;
+    } else if (w >= 0.6) {
+      return <Badge color="green">GOOD!</Badge>;
+    } else {
+      return <Badge color="red">PRACTICE!</Badge>;
+    }
+  };
 
   onMount(() => {
     const { quiz, correctQuestions } = location.state || {};
@@ -31,11 +47,21 @@ const Result = () => {
         when={locationData() !== undefined}
         fallback={<div>Loading...</div>}
       >
-        <h1>{locationData()?.quiz.quizName}</h1>
-        <span>{`${locationData()?.correctQuestions.length} / ${
-          locationData()?.quiz.quizList.length
-        }`}</span>
-        <A href="/">GO BACK HOME</A>
+        <div
+          class="flex flex-col items-center text-center p-4"
+          style={{ "padding-top": "20%" }}
+        >
+          {badgeComp()}
+          <h1 class="text-5xl mt-8" style={{ "overflow-wrap": "anywhere" }}>
+            {locationData()?.quiz.quizName}
+          </h1>
+          <span class="text-6xl mt-4">{`${
+            locationData()?.correctQuestions.length
+          } / ${locationData()?.quiz.quizList.length}`}</span>
+          <A href="/" class="mt-8 text-1xl font-bold">
+            GO BACK HOME
+          </A>
+        </div>
       </Show>
     </BaseTemplate>
   );

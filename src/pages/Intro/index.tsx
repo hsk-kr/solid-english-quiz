@@ -25,7 +25,7 @@ const Intro = () => {
   const handleKeyEvent = (key: Key) => {
     switch (key) {
       case "Enter":
-        const selectedQuiz = quizzes()[selectedQuizIdx()];
+        const selectedQuiz = quizzes()[1];
         if (!selectedQuiz) break;
         navigateToQuiz(selectedQuiz.quizName);
         break;
@@ -60,7 +60,7 @@ const Intro = () => {
       />
       <div class="pt-40 text-center">
         <h1 class="text-7xl">English Quiz</h1>
-        <div class="mt-28 text-4xl flex flex-col gap-y-6">
+        <div class="mt-16 text-4xl flex flex-col gap-y-6">
           <For each={quizzes()} fallback={<>Loading...</>}>
             {(quiz, quizIdx) => {
               const handleQuizClick = () => {

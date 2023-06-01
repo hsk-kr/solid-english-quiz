@@ -3,7 +3,14 @@ import Question from "../../components/Question";
 import quizzesData from "../../data/quizzes";
 import TopProgressBar from "../../components/TopProgressBar";
 import BaseTemplate from "../../components/templates/BaseTemplate";
-import { Show, createMemo, createSignal, onMount } from "solid-js";
+import {
+  Show,
+  createEffect,
+  createMemo,
+  createSignal,
+  onMount,
+  untrack,
+} from "solid-js";
 import { shuffleArray } from "../../lib/utils";
 
 const Quiz = () => {
@@ -12,13 +19,15 @@ const Quiz = () => {
     quizName?: string;
   }>();
   const [quiz, setQuiz] = createSignal<Quiz | undefined>();
+  const [choices, setChoices] = createSignal<string[]>([]);
   const [quizListIdx, setQuizListIdx] = createSignal(0);
   const [correctQuestions, setCorrectQuestions] = createSignal<
     Quiz["quizList"]
   >([]);
   const round = () => quizListIdx() + 1;
   const currentQuestion = createMemo(() => quiz()?.quizList[quizListIdx()]);
-  const choices = () => {
+
+  createEffect(() => {
     const CHOICE_CNT = 4;
     const q = quiz();
     const currentQuizListIdx = quizListIdx();
@@ -38,8 +47,8 @@ const Quiz = () => {
       choices.push(q.quizList[randIdx].answer);
     }
 
-    return shuffleArray(choices);
-  };
+    setChoices(shuffleArray(choices));
+  });
 
   const handleAnswer = (index: number) => {
     const q = quiz();
