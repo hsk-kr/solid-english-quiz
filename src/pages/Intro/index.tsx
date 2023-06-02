@@ -58,9 +58,11 @@ const Intro = () => {
         onKeyUp={handleKeyEvent}
         keys={["Enter", "ArrowUp", "ArrowDown"]}
       />
-      <div class="pt-40 text-center">
-        <h1 class="text-7xl">English Quiz</h1>
-        <div class="mt-16 text-4xl flex flex-col gap-y-6">
+      <div class="text-center h-full">
+        <h1 class="text-5xl h-2/6 block flex items-end justify-center p-4">
+          English Quiz
+        </h1>
+        <div class="mt-16 text-2xl flex flex-col gap-y-6">
           <For each={quizzes()} fallback={<>Loading...</>}>
             {(quiz, quizIdx) => {
               const handleQuizClick = () => {
@@ -74,8 +76,8 @@ const Intro = () => {
               return (
                 <div
                   onClick={quiz === null ? undefined : handleQuizClick}
-                  class="h-14 mx-auto hover:cursor-pointer"
-                  classList={{ "text-5xl": quizIdx() === 1 }}
+                  class="mx-auto hover:cursor-pointer"
+                  classList={{ "text-3xl": quizIdx() === 1 }}
                 >
                   {quiz?.quizName}
                 </div>

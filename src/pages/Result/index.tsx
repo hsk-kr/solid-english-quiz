@@ -47,18 +47,18 @@ const Result = () => {
         when={locationData() !== undefined}
         fallback={<div>Loading...</div>}
       >
-        <div
-          class="flex flex-col items-center text-center p-4"
-          style={{ "padding-top": "20%" }}
-        >
+        <div class="flex flex-col items-center text-center p-4 h-full max-h-96">
           {badgeComp()}
-          <h1 class="text-5xl mt-8" style={{ "overflow-wrap": "anywhere" }}>
+          <h1
+            class="text-5xl h-1/3 mt-4"
+            style={{ "overflow-wrap": "anywhere" }}
+          >
             {locationData()?.quiz.quizName}
           </h1>
-          <span class="text-6xl mt-4">{`${
+          <span class="text-6xl h-1/3">{`${
             locationData()?.correctQuestions.length
           } / ${locationData()?.quiz.quizList.length}`}</span>
-          <A href="/" class="mt-8 text-1xl font-bold">
+          <A href="/" class="text-1xl font-bold">
             GO BACK HOME
           </A>
         </div>

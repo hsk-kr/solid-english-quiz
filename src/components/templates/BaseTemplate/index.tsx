@@ -5,7 +5,7 @@ const BaseTemplate: Component<{
   children?: JSXElement;
 }> = (props) => {
   return (
-    <div class="w-screen h-screen bg-lime-50 font-theme">{props.children}</div>
+    <div class="w-screen h-screen bg-lime-50 font-caveat">{props.children}</div>
   );
 };
 

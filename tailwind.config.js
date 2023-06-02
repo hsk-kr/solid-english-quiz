@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      theme: ["Caveat"],
+      caveat: ["Caveat"],
+      roboto: ["Roboto Mono"],
     },
   },
   plugins: [],

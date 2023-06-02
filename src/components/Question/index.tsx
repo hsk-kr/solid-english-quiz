@@ -15,10 +15,10 @@ const Question: Component<{
   return (
     <>
       <KeyEvent keys={["1", "2", "3", "4"]} onKeyUp={handleKeyEvent} />
-      <div style={{ "padding-top": "20%" }}>
-        <div class="flex justify-center">
+      <div style={{ "padding-top": "20%" }} class="h-full">
+        <div class="flex justify-center h-2/5">
           <p
-            class="text-center text-3xl"
+            class="text-center text-1xl"
             style={{
               "max-width": "80vw",
             }}
@@ -26,7 +26,7 @@ const Question: Component<{
             {props.question}
           </p>
         </div>
-        <ul class="text-center mt-20 text-2xl flex flex-col items-center gap-y-4">
+        <ul class="text-center text-lg flex flex-col items-center gap-y-6">
           <Index each={props.choices}>
             {(choice, index) => (
               <li
