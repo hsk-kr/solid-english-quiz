@@ -3,8 +3,13 @@ import BaseTemplate from "../../components/templates/BaseTemplate";
 import quizzesData from "../../data/quizzes";
 import { useNavigate } from "@solidjs/router";
 import KeyEvent, { Key } from "../../components/functions/KeyEvent";
+import Button from "../../components/Button";
+import fontSignal from "../../stores/fontSignal";
+import { evalScore, getPlayHistory } from "../../lib/playHistory";
+import Badge, { BadgeColor } from "../../components/Badge";
 
 const Intro = () => {
+  const [, , nextFont] = fontSignal;
   const [selectedQuizIdx, setSelectedQuizIdx] = createSignal(0);
   const navigate = useNavigate();
   const quizzes = () => {
@@ -62,7 +67,7 @@ const Intro = () => {
         <h1 class="text-5xl h-2/6 block flex items-end justify-center p-4">
           English Quiz
         </h1>
-        <div class="mt-16 text-2xl flex flex-col gap-y-6">
+        <div class="mt-16 text-2xl flex flex-col gap-y-6 px-8">
           <For each={quizzes()} fallback={<>Loading...</>}>
             {(quiz, quizIdx) => {
               const handleQuizClick = () => {
@@ -73,17 +78,55 @@ const Intro = () => {
                 }
               };
 
+              let badge: { color: BadgeColor; text: string } | undefined =
+                undefined;
+              const score = getPlayHistory(quiz?.quizName);
+
+              if (score) {
+                const scoreGrade = evalScore(score);
+
+                if (scoreGrade === 1) {
+                  badge = {
+                    color: "blue",
+                    text: "1",
+                  };
+                } else if (scoreGrade === 2) {
+                  badge = {
+                    color: "green",
+                    text: "2",
+                  };
+                } else {
+                  badge = {
+                    color: "red",
+                    text: "3",
+                  };
+                }
+              }
+
               return (
                 <div
                   onClick={quiz === null ? undefined : handleQuizClick}
-                  class="mx-auto hover:cursor-pointer"
+                  class="mx-auto hover:cursor-pointer relative"
                   classList={{ "text-3xl": quizIdx() === 1 }}
                 >
+                  {badge && (
+                    <div class="absolute right-full top-0 pr-2">
+                      <Badge size="sm" color={badge.color}>
+                        {badge.text}
+                      </Badge>
+                    </div>
+                  )}
+
                   {quiz?.quizName}
                 </div>
               );
             }}
           </For>
+        </div>
+        <div class="fixed left-4 bottom-4">
+          <Button color="lime" onClick={nextFont}>
+            Font
+          </Button>
         </div>
       </div>
     </BaseTemplate>

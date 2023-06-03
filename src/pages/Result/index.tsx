@@ -1,32 +1,52 @@
 import { A, useLocation, useNavigate } from "@solidjs/router";
 import BaseTemplate from "../../components/templates/BaseTemplate";
-import quizzesData from "../../data/quizzes";
-import { Show, createSignal, onMount } from "solid-js";
+import { Show, createEffect, createSignal, onMount } from "solid-js";
 import Badge from "../../components/Badge";
+import { evalScore, savePlayHistory } from "../../lib/playHistory";
+import { Quiz } from "../../types/quiz";
 
 const Result = () => {
   type LocationState = {
-    quiz: (typeof quizzesData)[0];
-    correctQuestions: (typeof quizzesData)[0]["quizList"];
+    quiz: Quiz;
+    correctQuestions: Quiz["quizList"];
   };
   const navigate = useNavigate();
   const [locationData, setLocationData] = createSignal<LocationState>();
+  const [score, setScore] = createSignal<number>();
   const location = useLocation<LocationState>();
   const badgeComp = () => {
-    const { quiz, correctQuestions } = location.state || {};
-    if (!quiz || !correctQuestions) {
-      return null;
-    }
+    const s = score();
+    if (s === undefined) return null;
 
-    const w = correctQuestions.length / quiz.quizList.length;
-    if (w === 1) {
+    const grade = evalScore(s);
+    if (grade === 1) {
       return <Badge color="blue">PERFECT!</Badge>;
-    } else if (w >= 0.6) {
+    } else if (grade === 2) {
       return <Badge color="green">GOOD!</Badge>;
     } else {
       return <Badge color="red">PRACTICE!</Badge>;
     }
   };
+
+  createEffect(() => {
+    const { quiz } = location.state || {};
+    const s = score();
+    if (!quiz || s === undefined) {
+      return;
+    }
+
+    savePlayHistory(quiz.quizName, s);
+  });
+
+  createEffect(() => {
+    const { quiz, correctQuestions } = location.state || {};
+    if (!quiz || !correctQuestions) {
+      return null;
+    }
+
+    const score = correctQuestions.length / quiz.quizList.length;
+    setScore(score);
+  }, []);
 
   onMount(() => {
     const { quiz, correctQuestions } = location.state || {};
@@ -47,7 +67,7 @@ const Result = () => {
         when={locationData() !== undefined}
         fallback={<div>Loading...</div>}
       >
-        <div class="flex flex-col items-center text-center p-4 h-full max-h-96">
+        <div class="flex flex-col items-center text-center p-4 h-full">
           {badgeComp()}
           <h1
             class="text-5xl h-1/3 mt-4"
