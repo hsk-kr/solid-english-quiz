@@ -80,7 +80,7 @@ const Intro = () => {
 
               let badge: { color: BadgeColor; text: string } | undefined =
                 undefined;
-              const score = getPlayHistory(quiz?.quizName);
+              const score = quiz ? getPlayHistory(quiz.quizName) : undefined;
 
               if (score) {
                 const scoreGrade = evalScore(score);

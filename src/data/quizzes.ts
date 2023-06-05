@@ -1,3 +1,5 @@
+import { Quiz } from "../types/quiz";
+
 const quizzes: Quiz[] = [
   {
     quizName: "Basic 10 words",

@@ -12,7 +12,6 @@ export const getPlayHistory = (title: string): number => {
     score = historyMap[title] || 0;
   } catch (e) {
     console.error(e);
-
     localStorage.removeITem(STORAGE_PLAY_HISTORY);
   }
 
@@ -29,7 +28,6 @@ export const savePlayHistory = (title: string, score: number) => {
     localStorage.setItem(STORAGE_PLAY_HISTORY, JSON.stringify(historyMap));
   } catch (e) {
     console.error(e);
-
     localStorage.setItem(
       STORAGE_PLAY_HISTORY,
       JSON.stringify({

@@ -12,17 +12,18 @@ import {
   untrack,
 } from "solid-js";
 import { shuffleArray } from "../../lib/utils";
+import { Quiz as TQuiz } from "../../types/quiz";
 
 const Quiz = () => {
   const navigate = useNavigate();
   const location = useLocation<{
     quizName?: string;
   }>();
-  const [quiz, setQuiz] = createSignal<Quiz | undefined>();
+  const [quiz, setQuiz] = createSignal<TQuiz | undefined>();
   const [choices, setChoices] = createSignal<string[]>([]);
   const [quizListIdx, setQuizListIdx] = createSignal(0);
   const [correctQuestions, setCorrectQuestions] = createSignal<
-    Quiz["quizList"]
+    TQuiz["quizList"]
   >([]);
   const round = () => quizListIdx() + 1;
   const currentQuestion = createMemo(() => quiz()?.quizList[quizListIdx()]);

@@ -2,9 +2,11 @@ import { Component, JSXElement, mergeProps } from "solid-js";
 
 export type BadgeColor = "red" | "blue" | "green";
 
+export type BadgeFontSize = "sm" | "md";
+
 const Badge: Component<{
   color: BadgeColor;
-  size?: "sm" | "md";
+  size?: BadgeFontSize;
   children?: JSXElement;
 }> = (props) => {
   const mergedProps = mergeProps({ size: "md" }, props);

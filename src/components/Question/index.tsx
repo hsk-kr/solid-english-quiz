@@ -12,9 +12,11 @@ const Question: Component<{
     props.onAnswer(index);
   };
 
+  const keysToDetect: Key[] = ["1", "2", "3", "4"];
+
   return (
     <>
-      <KeyEvent keys={["1", "2", "3", "4"]} onKeyUp={handleKeyEvent} />
+      <KeyEvent keys={keysToDetect} onKeyUp={handleKeyEvent} />
       <div style={{ "padding-top": "20%" }} class="h-full">
         <div class="flex justify-center h-2/5">
           <p

@@ -1,4 +1,4 @@
-import { Component, JSXElement, createEffect } from "solid-js";
+import { Component, JSXElement } from "solid-js";
 import fontSignal from "../../../stores/fontSignal";
 
 const BaseTemplate: Component<{
