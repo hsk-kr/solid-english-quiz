@@ -8,7 +8,9 @@ const BaseTemplate: Component<{
   const [font] = fontSignal;
 
   return (
-    <div class={`w-screen h-screen bg-lime-50 ${font()}`}>{props.children}</div>
+    <div class={`w-screen h-screenUI bg-lime-50 ${font()}`}>
+      {props.children}
+    </div>
   );
 };
 
