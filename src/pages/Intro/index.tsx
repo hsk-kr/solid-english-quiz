@@ -104,20 +104,21 @@ const Intro = () => {
               }
 
               return (
-                <div
-                  onClick={quiz === null ? undefined : handleQuizClick}
-                  class="mx-auto hover:cursor-pointer relative"
-                  classList={{ "text-3xl": quizIdx() === 1 }}
-                >
+                <div class="relative mx-auto">
                   {badge && (
-                    <div class="absolute right-full top-0 pr-2">
+                    <div class="absolute right-full bottom-full translate-y-2/3">
                       <Badge size="sm" color={badge.color}>
                         {badge.text}
                       </Badge>
                     </div>
                   )}
-
-                  {quiz?.quizName}
+                  <div
+                    onClick={quiz === null ? undefined : handleQuizClick}
+                    class="hover:cursor-pointer relative"
+                    classList={{ "text-3xl": quizIdx() === 1 }}
+                  >
+                    {quiz?.quizName}
+                  </div>
                 </div>
               );
             }}
