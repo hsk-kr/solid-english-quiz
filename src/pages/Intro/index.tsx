@@ -27,6 +27,10 @@ const Intro = () => {
     return quizzesListToShow;
   };
 
+  const nextArrowVisible = () => {
+    return selectedQuizIdx() === 0 && quizzes().length >= 3;
+  };
+
   const handleKeyEvent = (key: Key) => {
     switch (key) {
       case "Enter":
@@ -115,7 +119,7 @@ const Intro = () => {
                   <div
                     onClick={quiz === null ? undefined : handleQuizClick}
                     class="hover:cursor-pointer relative"
-                    classList={{ "text-3xl": quizIdx() === 1 }}
+                    classList={{ "text-3xl animate-bounce": quizIdx() === 1 }}
                   >
                     {quiz?.quizName}
                   </div>
@@ -123,6 +127,9 @@ const Intro = () => {
               );
             }}
           </For>
+          {nextArrowVisible() && (
+            <div onClick={() => setSelectedQuizIdx(1)}>⬇️</div>
+          )}
         </div>
         <div class="fixed left-4 bottom-4">
           <Button color="lime" onClick={nextFont}>
