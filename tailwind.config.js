@@ -9,7 +9,7 @@ module.exports = {
     },
     fontFamily: {
       caveat: ["Caveat"],
-      roboto: ["Roboto Mono"],
+      roboto: ["Roboto"],
     },
   },
   plugins: [],

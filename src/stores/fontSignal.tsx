@@ -1,4 +1,4 @@
-import { Accessor, Setter, createEffect, createSignal } from "solid-js";
+import { Accessor, Setter, createSignal, createEffect } from "solid-js";
 
 type Font = "font-caveat" | "font-roboto";
 
@@ -28,7 +28,7 @@ const fontSignal = ((): [Accessor<Font>, Setter<Font>, VoidFunction] => {
 
     switch (font()) {
       case "font-caveat":
-        rootElement?.style.setProperty("font-size", "150%");
+        rootElement?.style.setProperty("font-size", "110%");
         break;
       case "font-roboto":
         rootElement?.style.setProperty("font-size", "100%");
