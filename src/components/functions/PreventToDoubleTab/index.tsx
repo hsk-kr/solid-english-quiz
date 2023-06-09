@@ -1,13 +1,15 @@
-import { onCleanup } from "solid-js";
+import { onCleanup, onMount } from "solid-js";
 
 const PreventDoubleTab = () => {
-  const preventDefault = (e: MouseEvent) => {
-    e.preventDefault();
-  };
-  document.addEventListener("dblclick", preventDefault);
+  onMount(() => {
+    const preventDefault = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+    document.addEventListener("dblclick", preventDefault);
 
-  onCleanup(() => {
-    document.removeEventListener("dblclick", preventDefault);
+    onCleanup(() => {
+      document.removeEventListener("dblclick", preventDefault);
+    });
   });
 
   return null;
