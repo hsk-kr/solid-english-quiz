@@ -1,4 +1,4 @@
-import { Component, Index } from "solid-js";
+import { Component, For } from "solid-js";
 import KeyEvent, { Key } from "../../components/functions/KeyEvent";
 
 const Question: Component<{
@@ -29,7 +29,7 @@ const Question: Component<{
           </p>
         </div>
         <ul class="text-center text-lg flex flex-col items-center gap-y-6">
-          <Index each={props.choices}>
+          <For each={props.choices}>
             {(choice, index) => (
               <li
                 class="bg-white rounded drop-shadow-md cursor-pointer hover:bg-slate-50 transition"
@@ -39,10 +39,10 @@ const Question: Component<{
                 }}
                 onClick={[props.onAnswer, index]}
               >
-                {index + 1}. {choice()}
+                {index() + 1}. {choice}
               </li>
             )}
-          </Index>
+          </For>
         </ul>
       </div>
     </>
