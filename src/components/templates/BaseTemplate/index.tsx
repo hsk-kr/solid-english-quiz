@@ -2,7 +2,6 @@ import { Component, JSXElement } from "solid-js";
 import fontSignal from "../../../stores/fontSignal";
 
 const BaseTemplate: Component<{
-  center?: boolean;
   children?: JSXElement;
 }> = (props) => {
   const [font] = fontSignal;
