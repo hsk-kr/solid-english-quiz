@@ -15,7 +15,7 @@ const Badge: Component<{
     },
     props
   );
-  // Map color and size values to Tailwind CSS classes
+
   const colorClasses = {
     red: "bg-red-500",
     blue: "bg-blue-500",
@@ -27,7 +27,6 @@ const Badge: Component<{
     md: "px-3 py-2 text-base",
   };
 
-  // Generate the dynamic classes based on the provided props
   const badgeClasses = `${colorClasses[mergedProps.color]} ${
     sizeClasses[mergedProps.size]
   } text-white font-medium rounded-full inline-block w-fit`;
