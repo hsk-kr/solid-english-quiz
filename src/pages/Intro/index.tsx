@@ -4,12 +4,11 @@ import quizzesData from "../../data/quizzes";
 import { useNavigate } from "@solidjs/router";
 import KeyEvent, { Key } from "../../components/functions/KeyEvent";
 import Button from "../../components/Button";
-import fontSignal from "../../stores/fontSignal";
+import { nextFont } from "../../stores/fontSignal";
 import { evalScore, getPlayHistory } from "../../lib/playHistory";
 import Badge, { BadgeColor } from "../../components/Badge";
 
 const Intro = () => {
-  const [, , nextFont] = fontSignal;
   const [selectedQuizIdx, setSelectedQuizIdx] = createSignal(0);
   const navigate = useNavigate();
   const quizzes = () => {
