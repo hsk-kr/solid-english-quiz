@@ -9,7 +9,6 @@ import {
   createMemo,
   createSignal,
   onMount,
-  untrack,
 } from "solid-js";
 import { shuffleArray } from "../../lib/utils";
 import { Quiz as TQuiz } from "../../types/quiz";
