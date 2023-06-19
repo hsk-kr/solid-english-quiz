@@ -37,7 +37,7 @@ const Question: Component<{
                   width: "300px",
                   "max-width": "80vw",
                 }}
-                onClick={[props.onAnswer, index]}
+                onClick={[props.onAnswer, index()]}
               >
                 {index() + 1}. {choice}
               </li>
