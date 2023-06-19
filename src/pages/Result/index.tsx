@@ -71,7 +71,7 @@ const Result = () => {
           <div class="flex flex-col items-center">
             {badgeComp()}
             <h1
-              class="text-5xl h-1/3 mt-4"
+              class="text-5xl h-1/3 mt-4 text-center"
               style={{ "overflow-wrap": "anywhere" }}
             >
               {locationData()?.quiz.quizName}

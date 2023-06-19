@@ -62,6 +62,7 @@ const Quiz = () => {
     const currentQuestion = q.quizList[listIdx];
 
     if (currentQuestion.answer === userAnswer) {
+      alert(correctQuestions());
       setCorrectQuestions((prevCorrectQuestions) =>
         prevCorrectQuestions.concat(currentQuestion)
       );
