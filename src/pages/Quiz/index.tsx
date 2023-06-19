@@ -57,13 +57,12 @@ const Quiz = () => {
       return;
     }
 
+    alert(JSON.stringify(choices()));
+    alert(index);
+
     const userAnswer = choices()[index];
     const listIdx = quizListIdx();
     const currentQuestion = q.quizList[listIdx];
-
-    alert(
-      `userAnswer: ${userAnswer}. currentQuestio.answer: ${currentQuestion.answer}`
-    );
 
     if (currentQuestion.answer === userAnswer) {
       setCorrectQuestions((prevCorrectQuestions) =>
